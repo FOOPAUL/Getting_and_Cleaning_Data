@@ -1,4 +1,3 @@
-
 ### I.Data Extraction ----
 # dowload the file
 if(!file.exists("./data")){dir.create("./data")}
@@ -50,30 +49,16 @@ Data<-subset(Data,select=selectedNames)
 activityLabels <- read.table(file.path(path_rf, "activity_labels.txt"),header = FALSE)
 
 #### 4. Appropriately labels the data set with descriptive activity names.#### 
-names(test_x) = features
-names(train_x) = features
-
-names(test_y) = c("Activity_ID","Activity_Label")
-names(train_y) = c("Activity_ID","Activity_Label")
-
-names(test_subject) = "subject"
-names(train_subject) = "subject"
+names(Data)<-gsub("^t", "time", names(Data))
+names(Data)<-gsub("^f", "frequency", names(Data))
+names(Data)<-gsub("Acc", "Accelerometer", names(Data))
+names(Data)<-gsub("Gyro", "Gyroscope", names(Data))
+names(Data)<-gsub("Mag", "Magnitude", names(Data))
+names(Data)<-gsub("BodyBody", "Body", names(Data))
 
 
 #### 5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject.#### 
 Data2<-aggregate(. ~subject + activity, Data, mean)
 Data2<-Data2[order(Data2$subject,Data2$activity),]
 write.table(Data2, file = "tidydata.txt",row.name=FALSE)
-
-
-
-
-
-
-
-
-
-
-
-
 
